@@ -1,0 +1,31 @@
+apply plugin: 'java'
+
+description = "A Quick start example with the MongoDB Async Java Driver 3.0.0"
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.mongodb:mongodb-driver-rx:1.1.0-SNAPSHOT'
+    compile 'io.netty:netty-all:4.0.28.Final'
+    compile 'io.vertx:vertx-core:3.0.0'
+    compile 'ch.qos.logback:logback-classic:1.1.1'
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ['src/main']
+    }
+    test { }
+}
+
+
+task quickStart(type:JavaExec) {
+    main = "quickstart.QuickStart"
+    classpath = sourceSets.main.runtimeClasspath
+    System.properties.setProperty("org.mongodb.async.type", "netty")
+    args System.properties.get("connectionString", "").split()
+}
