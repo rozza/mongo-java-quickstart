@@ -1,0 +1,27 @@
+apply plugin: 'java'
+
+description = "A Quick start example with the MongoDB Java Driver 2.13.1"
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.mongodb:mongo-java-driver:2.13.1'
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ['src/main']
+    }
+    test { }
+}
+
+
+task quickStart(type:JavaExec) {
+    main = "quickstart.QuickStart"
+    classpath = sourceSets.main.runtimeClasspath
+    args System.properties.get("connectionString", "").split()
+}
