@@ -14,7 +14,7 @@ From there you can start and run test code or build your own application.
 
 
 ## Getting Started:
-Each [branch](https://github.com/rozza/mongo-java-quickstart/branches) contains the source code for the various versions or you can download a zip directly:
+Each [branch](https://github.com/rozza/mongo-java-quickstart/branches/all) contains the source code for the various versions or you can download a zip directly:
  
  * [3.0](https://github.com/rozza/mongo-java-quickstart/archive/3.0.zip)
  * [3.0 - Async version](https://github.com/rozza/mongo-java-quickstart/archive/3.0-async.zip)
