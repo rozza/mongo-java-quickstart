@@ -35,7 +35,6 @@ public final class QuickStart {
      * ./gradlew quickStart -PconnectionString=mongodb://localhost
      *
      * @param args takes an optional single argument for the connection string
-     * @throws UnknownHostException if
      */
     public static void main(final String[] args) {
         System.out.println("======= Start =======");
