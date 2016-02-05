@@ -26,5 +26,5 @@ sourceSets {
 task quickStart(type:JavaExec) {
     main = "quickstart.QuickStart"
     classpath = sourceSets.main.runtimeClasspath
-    args System.properties.get("connectionString", "").split()
+    args "$connectionString"
 }
