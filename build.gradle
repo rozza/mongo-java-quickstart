@@ -3,13 +3,13 @@ apply plugin: 'java'
 description = "A Quick start example with the MongoDB Java Driver 3.5.0"
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    mavenLocal()
 }
 
 dependencies {
-    compile 'org.mongodb:mongodb-driver:3.5.0'
+    compile 'org.mongodb:mongodb-driver:3.7.0-SNAPSHOT'
     compile 'org.apache.logging.log4j:log4j-api:2.3'
     compile 'org.apache.logging.log4j:log4j-core:2.3'
     compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.3'
@@ -27,4 +27,8 @@ task quickStart(type:JavaExec) {
     main = "quickstart.QuickStart"
     classpath = sourceSets.main.runtimeClasspath
     args System.properties.get("connectionString", "").split()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.5.1'
 }

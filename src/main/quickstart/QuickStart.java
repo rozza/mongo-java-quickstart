@@ -38,6 +38,7 @@ public final class QuickStart {
      */
     public static void main(final String[] args) {
         System.out.println("======= Start =======");
+        //System.out.println(args[0]);
 
         MongoClient mongoClient;
 
