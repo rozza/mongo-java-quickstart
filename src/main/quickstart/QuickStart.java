@@ -16,15 +16,13 @@
 
 package quickstart;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.ConnectionString;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-
-import java.net.UnknownHostException;
 
 public final class QuickStart {
 
@@ -39,14 +37,12 @@ public final class QuickStart {
     public static void main(final String[] args) {
         System.out.println("======= Start =======");
 
-        MongoClient mongoClient;
-
-        if (args.length == 0) {
-            // connect to the local database server
-            mongoClient = new MongoClient();
-        } else {
-            mongoClient = new MongoClient(new MongoClientURI(args[0]));
+        MongoClientSettings.Builder mongoClientSettingsBuilder = MongoClientSettings.builder();
+        if (args.length > 0) {
+            mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(args[0]));
         }
+        MongoClient mongoClient = MongoClients.create(mongoClientSettingsBuilder.build());
+
 
         // get handle to "mydb" database
         MongoDatabase database = mongoClient.getDatabase("mydb");
