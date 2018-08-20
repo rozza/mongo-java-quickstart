@@ -16,15 +16,13 @@
 
 package quickstart;
 
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.embedded.client.MongoClientSettings;
+import com.mongodb.embedded.client.MongoClients;
+import com.mongodb.embedded.client.MongoEmbeddedSettings;
 import org.bson.Document;
-
-import java.net.UnknownHostException;
 
 public final class QuickStart {
 
@@ -39,15 +37,9 @@ public final class QuickStart {
     public static void main(final String[] args) {
         System.out.println("======= Start =======");
         //System.out.println(args[0]);
+        MongoClients.init(MongoEmbeddedSettings.builder().libraryPath("/home/rozza/Code/mongodb/mongo-embedded-sdk/lib").build());
+        MongoClient mongoClient = MongoClients.create(MongoClientSettings.builder().dbPath("/tmp/mongotest").build());
 
-        MongoClient mongoClient;
-
-        if (args.length == 0) {
-            // connect to the local database server
-            mongoClient = new MongoClient();
-        } else {
-            mongoClient = new MongoClient(new MongoClientURI(args[0]));
-        }
 
         // get handle to "mydb" database
         MongoDatabase database = mongoClient.getDatabase("mydb");
@@ -60,6 +52,7 @@ public final class QuickStart {
 
         // close resources
         mongoClient.close();
+        MongoClients.close();
         System.out.println("======= Finish =======");
 
     }
