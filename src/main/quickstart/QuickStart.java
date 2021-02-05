@@ -41,20 +41,20 @@ public final class QuickStart {
         if (args.length > 0) {
             mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(args[0]));
         }
-        MongoClient mongoClient = MongoClients.create(mongoClientSettingsBuilder.build());
 
+        try(MongoClient client = MongoClients.create(mongoClientSettingsBuilder.build())) {
+            MongoCollection<Document> collection = client.getDatabase("testdb")
+                    .getCollection("testcoll");
 
-        // get handle to "mydb" database
-        MongoDatabase database = mongoClient.getDatabase("mydb");
+            final List<String> aList = asList("a", "list", "of", "strings");
+            Document document = new Document();
+            document.put("_id", 1);
+            document.put("value1", aList);
+            document.put("value2", "New York");
+            document.append("date", new Date());
+            collection.insertOne(document);
+        }
 
-
-        // get a handle to the "test" collection
-        MongoCollection<Document> collection = database.getCollection("test");
-
-        System.out.println("Collection has " + collection.count() + " documents");
-
-        // close resources
-        mongoClient.close();
         System.out.println("======= Finish =======");
 
     }
