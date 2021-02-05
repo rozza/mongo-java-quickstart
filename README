@@ -5,5 +5,5 @@ Various quick starts for using mongodb with java - check the different branches 
 To run:  `./gradlew quickStart`
 or to supply a different connection string: `./gradlew quickStart -PconnectionString=mongodb://localhost`
 
-Source code is in `./src/main/quickstart/QuickStart.java`
+Source code is in `./quickstart/src/main/quickstart/QuickStart.java`
 Github source: https://github.com/rozza/mongo-java-quickstart
