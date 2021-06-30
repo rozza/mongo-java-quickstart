@@ -24,14 +24,8 @@ buildscript {
 
 plugins {
     `java-library`
+    scala
 }
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
-    }
-}
-
 
 repositories {
     mavenLocal()
@@ -41,29 +35,23 @@ repositories {
 
 
 dependencies {
-    implementation("org.mongodb:mongodb-driver-sync:4.2.0")
+//    implementation(fileTree("libs"))
+//
+//    implementation(platform("io.projectreactor:reactor-bom:Californium-SR23"))
+//    implementation("io.projectreactor:reactor-core")
+//    implementation("org.reactivestreams:reactive-streams:1.0.3")
+
+    implementation("org.mongodb.scala:mongo-scala-driver_2.13:4.2.3")
+
+    implementation("org.scala-lang:scala-library:2.13.4")
     implementation("org.apache.logging.log4j:log4j-api:2.3")
     implementation("org.apache.logging.log4j:log4j-core:2.3")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.3")
-}
-
-sourceSets {
-    main {
-        java {
-            setSrcDirs(listOf("src/main"))
-        }
-    }
-}
-
-tasks.compileJava {
-    options.isIncremental = true
-    options.isFork = true
-    options.isFailOnError = false
 }
 
 tasks.create("quickStart", JavaExec::class.java) {
     description = "Runs the quickstart"
     main = "quickstart.QuickStart"
     classpath = sourceSets["main"].runtimeClasspath
-    args = System.getProperties().getProperty("connectionString", "").split(",")
+    args = listOf(System.getProperties().getProperty("connectionString", ""))
 }

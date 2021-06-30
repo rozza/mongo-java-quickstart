@@ -39,3 +39,6 @@ codereview.rc
 docs/reference/public
 docs/landing/public
 docs/hugo*
+
+#logs
+logs/*

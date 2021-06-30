@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
+
+    <Properties>
+        <Property name="timestamp-by-second">${date:yyyy-MM-dd-hh-mm-ss}</Property>
+    </Properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-    </Appenders>
-    <Loggers>
-        <Logger name="org.mongodb.driver" level="debug"/>
+        <Console name="ClusterLogs" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+        </Console>
 
-        <Root level="debug">
+        <File name="LogFile" fileName="../logs/app-${timestamp-by-second}.log" immediateFlush="true">
+            <PatternLayout pattern="%d{yyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+
+        <!-- Special case the cluster logger for the console - thread info not needed -->
+        <Logger name="ClusterLogger" level="INFO">
+            <AppenderRef ref="ClusterLogs"/>
+        </Logger>
+        <Logger name="AppLogger" level="TRACE">
             <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Root level="TRACE">
+            <AppenderRef ref="Console" level="WARN"/>
+            <AppenderRef ref="LogFile" level="DEBUG"/>
         </Root>
+
     </Loggers>
 </Configuration>
