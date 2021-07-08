@@ -15,7 +15,8 @@
  */
 package quickstart
 
-import com.mongodb.connection.ClusterDescription
+import com.mongodb.{ServerApi, ServerApiVersion}
+import com.mongodb.connection.{ClusterDescription, ServerVersion}
 import com.mongodb.event.{ClusterClosedEvent, ClusterDescriptionChangedEvent, ClusterListener, ClusterOpeningEvent, CommandFailedEvent, CommandListener}
 import org.mongodb.scala._
 import org.mongodb.scala.model.{Projections, UpdateOptions}
@@ -43,8 +44,7 @@ object QuickStart {
     val cleanedArgs = args.toSeq.filter(s => s.trim.nonEmpty)
     val uri = if (cleanedArgs.isEmpty) "mongodb://localhost/" else cleanedArgs.head
     val mongoClientSettings = MongoClientSettings.builder().applyConnectionString(ConnectionString(uri))
-      .addCommandListener(LoggingCommandListener())
-      .applyToClusterSettings(b => b.addClusterListener(LoggingClusterListener()))
+      .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
       .build()
 
     Using(MongoClient(mongoClientSettings)) { mongoClient =>
@@ -90,33 +90,6 @@ object QuickStart {
     }
   }
 
-  case class LoggingCommandListener() extends CommandListener {
-    val logger: Logger = LoggerFactory.getLogger("CommandLogger")
-    override def commandFailed(event: CommandFailedEvent): Unit = {
-      logger.warn(s"""Command Failed: '${event.getCommandName}' with id ${event.getRequestId}
-                     |on connection '${event.getConnectionDescription.getConnectionId}', to server
-                     |'${event.getConnectionDescription.getServerAddress}' with exception
-                     |'${event.getThrowable}'
-        """.stripMargin.replaceAll("\n", " "))
-    }
-  }
 
-  case class LoggingClusterListener() extends ClusterListener {
-    val logger: Logger = LoggerFactory.getLogger("ClusterLogger")
-
-    override def clusterOpening(event: ClusterOpeningEvent): Unit = logger.info("Cluster opened")
-
-    override def clusterClosed(event: ClusterClosedEvent): Unit = logger.info("Cluster closed")
-
-    override def clusterDescriptionChanged(event: ClusterDescriptionChangedEvent): Unit =
-      logger.info(s"Cluster changed: ${getNewDescription(event.getNewDescription)}")
-
-    def getNewDescription(clusterDescription: ClusterDescription): String = {
-      def rtMs(rtNanos: Long): String = "%.2f ms".format(rtNanos / 1000.0 / 1000.0)
-      clusterDescription.getServerDescriptions.asScala
-        .map(s => s"(address=${s.getAddress}, type=${s.getType}, state=${s.getState}, roundTrip=${rtMs(s.getRoundTripTimeNanos)})")
-        .mkString("[", ",", "]")
-    }
-  }
 
 }

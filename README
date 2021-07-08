@@ -1,9 +1,9 @@
 # MongoDB Java Quickstart
 
-Various quick starts for using mongodb with java - check the different branches for different versions of the driver
+Various quick starts for using mongodb with java & scala - check the different branches for different versions of the driver
 
 To run:  `./gradlew run`
 or to supply a different connection string: `./gradlew run -DconnectionString=mongodb://localhost`
 
-Source code is in `./src/main/quickstart/QuickStart.java`
+Source code is in `./src/main/scala/quickstart/QuickStart.scala`
 Github source: https://github.com/rozza/mongo-java-quickstart

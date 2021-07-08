@@ -35,13 +35,7 @@ repositories {
 
 
 dependencies {
-//    implementation(fileTree("libs"))
-//
-//    implementation(platform("io.projectreactor:reactor-bom:Californium-SR23"))
-//    implementation("io.projectreactor:reactor-core")
-//    implementation("org.reactivestreams:reactive-streams:1.0.3")
-
-    implementation("org.mongodb.scala:mongo-scala-driver_2.13:4.2.3")
+    implementation("org.mongodb.scala:mongo-scala-driver_2.13:4.3.0-beta4")
 
     implementation("org.scala-lang:scala-library:2.13.4")
     implementation("org.apache.logging.log4j:log4j-api:2.3")
