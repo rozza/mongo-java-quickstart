@@ -54,38 +54,9 @@ object QuickStart {
 
       // get a handle to the "test" collection
       val collection: MongoCollection[Document] = database.getCollection("test")
-      val dropped = collection.drop()
-      Await.ready(dropped.toFuture(), 1.minute)
 
-      val updateObservable = collection.updateOne(Document("_id" -> 1), Document("$inc" -> Document("mongoTestField" -> 1)), UpdateOptions().upsert(true))
-      val times = 500000
-
-      def recursiveUpdate(curr: Int): Future[String] = {
-        if (curr % 5000 == 0) logger.info(s"iter: $curr")
-        if (curr >= times) {
-          Future.successful(s">>> $curr")
-        } else {
-          updateObservable.toFuture() flatMap { _ =>
-            recursiveUpdate(curr + 1)
-          }
-        }
-      }
-
-      val eventualString = recursiveUpdate(0)
-      Await.ready(eventualString, 20.minutes).onComplete {
-        case Success(value) => logger.info(s"SUCCESS: $value")
-        case Failure(exception) => logger.error(exception.getMessage)
-      }
-
-      val collectionData = collection.find().projection(Projections.excludeId())
-        .toFuture()
-        .map(s => s.map(d => d.toJson()))
-        .collect(s => s.mkString(","))
-
-      Await.ready(collectionData, 1.minute)
-      logger.info(collectionData.toString)
-
-      Await.ready(dropped.toFuture(), 1.minute)
+      val insert = collection.insertOne(Document("hello" -> "world"))
+      Await.ready(insert.toFuture(), 1.minute)
       logger.info("Finished")
     }
   }
