@@ -16,17 +16,12 @@
 package quickstart
 
 import com.mongodb.{ServerApi, ServerApiVersion}
-import com.mongodb.connection.{ClusterDescription, ServerVersion}
-import com.mongodb.event.{ClusterClosedEvent, ClusterDescriptionChangedEvent, ClusterListener, ClusterOpeningEvent, CommandFailedEvent, CommandListener}
 import org.mongodb.scala._
-import org.mongodb.scala.model.{Projections, UpdateOptions}
 import org.slf4j.{Logger, LoggerFactory}
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
-import scala.concurrent.{Await, Future}
-import scala.jdk.CollectionConverters.CollectionHasAsScala
-import scala.util.{Failure, Success, Using}
+import scala.util.Using
 
 /**
  * Quick Start test
