@@ -42,9 +42,9 @@ public final class QuickStart {
         System.out.println("======= Start =======");
 
         MongoClientSettings.Builder mongoClientSettingsBuilder = MongoClientSettings.builder();
-        if (args.length > 0) {
-            mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(args[0]));
-        }
+        String connectionString = args.length > 0 && !args[0].trim().equals("") ? args[0] : "mongodb://localhost";
+
+        mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(connectionString));
 
         try(MongoClient client = MongoClients.create(mongoClientSettingsBuilder.build())) {
             MongoCollection<Document> collection = client.getDatabase("testdb")
