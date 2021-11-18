@@ -19,11 +19,6 @@ public class DataHolder {
         return data;
     }
 
-    public DataHolder setData(final List<MetricsData> data) {
-        this.data = data;
-        return this;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
