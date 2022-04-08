@@ -21,10 +21,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import org.bson.Document;
-
-import java.util.Date;
-import java.util.List;
+import org.bson.BsonDocument;
 
 import static java.util.Arrays.asList;
 
@@ -47,16 +44,13 @@ public final class QuickStart {
         mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(connectionString));
 
         try(MongoClient client = MongoClients.create(mongoClientSettingsBuilder.build())) {
-            MongoCollection<Document> collection = client.getDatabase("testdb")
-                    .getCollection("testcoll");
+            MongoCollection<ExampleRecord> collection = client.getDatabase("testdb")
+                    .getCollection("testcoll")
+                    .withDocumentClass(ExampleRecord.class);
 
-            final List<String> aList = asList("a", "list", "of", "strings");
-            Document document = new Document();
-            document.put("_id", 1);
-            document.put("value1", aList);
-            document.put("value2", "New York");
-            document.append("date", new Date());
-            collection.insertOne(document);
+            collection.insertOne(new ExampleRecord("Ross", 42, asList("bonsai", "koi")));
+
+            System.out.println(collection.find().first());
         }
 
         System.out.println("======= Finish =======");
