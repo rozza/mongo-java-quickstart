@@ -21,9 +21,7 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import org.bson.BsonDocument;
-
-import static java.util.Arrays.asList;
+import org.bson.Document;
 
 public final class QuickStart {
 
@@ -44,11 +42,10 @@ public final class QuickStart {
         mongoClientSettingsBuilder.applyConnectionString(new ConnectionString(connectionString));
 
         try(MongoClient client = MongoClients.create(mongoClientSettingsBuilder.build())) {
-            MongoCollection<ExampleRecord> collection = client.getDatabase("testdb")
-                    .getCollection("testcoll")
-                    .withDocumentClass(ExampleRecord.class);
+            MongoCollection<Document> collection = client.getDatabase("testdb")
+                    .getCollection("testcoll");
 
-            collection.insertOne(new ExampleRecord("Ross", 42, asList("bonsai", "koi")));
+            collection.insertOne(new Document("A", 1));
 
             System.out.println(collection.find().first());
         }
