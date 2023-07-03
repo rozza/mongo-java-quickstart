@@ -41,7 +41,7 @@ repositories {
 
 
 dependencies {
-    implementation("org.mongodb:mongodb-driver-sync:4.6.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.10.1")
     implementation("org.apache.logging.log4j:log4j-api:2.3")
     implementation("org.apache.logging.log4j:log4j-core:2.3")
     implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.3")
